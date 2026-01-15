@@ -1,48 +1,55 @@
-#include <iostream>
+#include <bits/stdc++.h>
 using namespace std;
 
 int main() {
     // payoff[player][p1_strategy][p2_strategy]
-    // 0 = Deny, 1 = Confess
+    // strategies: 0 -> 1, 1 -> 2
 
     int payoff[2][2][2] = {
-        { {-1, -10}, {0, -5} },   // Player 1 payoffs
-        { {-1, 0}, {-10, -5} }    // Player 2 payoffs
+        { {-3,  0}, {-4, -1} },   // Player 1 payoffs
+        { {-3, -4}, { 0, -1} }    // Player 2 payoffs
     };
 
-    cout << "Best Responses:\n\n";
+    vector<vector<bool>> bestP1(2, vector<bool>(2, false));
+    vector<vector<bool>> bestP2(2, vector<bool>(2, false));
 
-    // Best response for Player 1
+    // Best responses for Player 1
     for(int p2 = 0; p2 < 2; p2++) {
-        int best = 0;
-        for(int p1 = 1; p1 < 2; p1++) {
-            if(payoff[0][p1][p2] > payoff[0][best][p2])
-                best = p1;
-        }
-        cout << "P1 best response to P2 = "
-             << (p2 == 0 ? "Deny" : "Confess")
-             << " is "
-             << (best == 0 ? "Deny" : "Confess")
-             << endl;
+        int mx = INT_MIN;
+        for(int p1 = 0; p1 < 2; p1++)
+            mx = max(mx, payoff[0][p1][p2]);
+
+        for(int p1 = 0; p1 < 2; p1++)
+            if(payoff[0][p1][p2] == mx)
+                bestP1[p1][p2] = true;
     }
 
-    cout << endl;
-
-    // Best response for Player 2
+    // Best responses for Player 2
     for(int p1 = 0; p1 < 2; p1++) {
-        int best = 0;
-        for(int p2 = 1; p2 < 2; p2++) {
-            if(payoff[1][p1][p2] > payoff[1][p1][best])
-                best = p2;
-        }
-        cout << "P2 best response to P1 = "
-             << (p1 == 0 ? "Deny" : "Confess")
-             << " is "
-             << (best == 0 ? "Deny" : "Confess")
-             << endl;
+        int mx = INT_MIN;
+        for(int p2 = 0; p2 < 2; p2++)
+            mx = max(mx, payoff[1][p1][p2]);
+
+        for(int p2 = 0; p2 < 2; p2++)
+            if(payoff[1][p1][p2] == mx)
+                bestP2[p1][p2] = true;
     }
 
-    cout << "\nNash Equilibrium: (Confess, Confess)\n";
+    cout << "Nash Equilibria:\n";
+    bool found = false;
+
+    for(int p1 = 0; p1 < 2; p1++) {
+        for(int p2 = 0; p2 < 2; p2++) {
+            if(bestP1[p1][p2] && bestP2[p1][p2]) {
+                found = true;
+                cout << "(P1 Strategy " << p1 + 1
+                     << ", P2 Strategy " << p2 + 1 << ")\n";
+            }
+        }
+    }
+
+    if(!found)
+        cout << "No pure Nash Equilibrium exists\n";
 
     return 0;
 }
