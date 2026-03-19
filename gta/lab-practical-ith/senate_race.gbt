@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<gambit:document xmlns:gambit="http://gambit.sourceforge.net/" version="0.1">
+<colors>
+<player id="-1" red="0" green="0" blue="0" />
+<player id="0" red="154" green="205" blue="50" />
+<player id="1" red="255" green="0" blue="0" />
+<player id="2" red="0" green="0" blue="255" />
+</colors>
+
+<font size="10" family="74" face="Arial" style="90" weight="700" />
+
+<autolayout>
+<nodes size="10" spacing="50" chance="dot" player="dot" terminal="dot"/>
+<branches size="60" tine="20" branch="forktine" labels="horizontal"/>
+<infosets style="circles"/>
+</autolayout>
+
+<labels abovenode="label" belownode="isetid" abovebranch="label" belowbranch="probs" />
+<numbers decimals="4"/>
+
+<game>
+<efgfile>
+EFG 2 R "Senate Race Sequential Game" { "Senator" "Challenger" }
+""
+
+p "" 1 1 "" { "Right" "Left" } 0
+
+p "" 2 1 "" { "Right" "Left" } 0
+t "" 1 "" { 10, 5 }
+t "" 2 "" { 0, 10 }
+
+p "" 2 2 "" { "Right" "Left" } 0
+t "" 3 "" { 5, 15 }
+t "" 4 "" { 15, 0 }
+
+</efgfile>
+</game>
+</gambit:document>
